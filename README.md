@@ -95,5 +95,12 @@ All dependencies are listed explicitly in `requirements.txt`.
 
 To install:
 
-```bash
-pip install -r requirements.txt
+```bash pip install -r requirements.txt´´´
+
+## ▶️ How to Run
+
+python chameleon.py \
+  --model meta-llama/Llama-3.2-3B-Instruct \
+  --dataset pku_safe_rlhf \
+  --output results.json
+
