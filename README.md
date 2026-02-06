@@ -99,11 +99,3 @@ To install:
 
 ```bash
 pip install -r requirements.txt
-
-## ▶️ How to Run
-
-```bash
-python chameleon.py \
-  --model meta-llama/Llama-3.2-3B-Instruct \
-  --dataset pku_safe_rlhf \
-  --output results.json
