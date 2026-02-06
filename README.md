@@ -85,8 +85,6 @@ The construction does **not** rely on specialized hardware.
 
 ---
 
----
-
 ## Installation and Requirements
 
 This repository requires a standard modern Python environment with GPU support.
