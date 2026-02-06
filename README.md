@@ -93,11 +93,8 @@ python chameleon.py \
   --dataset pku_safe_rlhf \
   --output results.json
 
-
-## 🧬 Chameleon Construction — Code Walkthrough (Inline)
-
-This section provides a **self-contained, annotated walkthrough** of the Chameleon construction used in the paper.
-
+  ---
+## Explanation
 This notebook provides a **line-by-line, explanatory walkthrough** of the Chameleon construction, intended for readers who wish to understand the experiment interactively rather than as a single execution script.
 
 ### Purpose of the Notebook
