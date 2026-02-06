@@ -85,6 +85,21 @@ The construction does **not** rely on specialized hardware.
 
 ---
 
+---
+
+## Installation and Requirements
+
+This repository requires a standard modern Python environment with GPU support.
+
+### Requirements
+
+All dependencies are listed explicitly in `requirements.txt`.
+
+To install:
+
+```bash
+pip install -r requirements.txt
+
 ## ▶️ How to Run
 
 ```bash
