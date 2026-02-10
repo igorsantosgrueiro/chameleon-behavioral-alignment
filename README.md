@@ -1,106 +1,109 @@
-# The Chameleon Model
+# The Chameleon Model  
 ### A Constructive Demonstration of Evaluation-Dependent Policy Indistinguishability in LLMs
 
-This repository provides the reference implementation for the **Chameleon model** introduced in the paper:
+This repository provides the **reference implementation** of the **Chameleon model**, a constructive example introduced in the paper:
 
-> *Behavioral Evaluation, Non-Identifiability, and the Limits of Alignment Verification*  
-> (Section 7: Constructive Proof of Existence)
+> **Behavioral Evaluation, Non-Identifiability, and the Limits of Alignment Verification**  
+> arXiv preprint: https://arxiv.org/abs/2602.05656  
+> (Section 7: *Constructive Proof of Existence*)
 
-The code implements a minimal, fully reproducible construction showing that **perfect behavioral compliance under evaluation does not uniquely identify a model’s latent policy**, even in the absence of harmful content, adversarial prompting, or distributional shift.
+The code implements a minimal, fully reproducible construction demonstrating a fundamental epistemic limitation of behavioral alignment evaluation.
 
 ---
 
-## 🔍 What This Repository Demonstrates
+## 🔍 Purpose and Scope
 
-The goal of this repository is **not** to improve alignment, jailbreak models, or induce unsafe behavior.
+This repository is **not** intended to:
+- improve alignment,
+- bypass safeguards,
+- induce unsafe behavior,
+- or demonstrate jailbreaks.
 
-Instead, it demonstrates a **purely epistemic limitation** of behavioral evaluation:
+Instead, it provides a **constructive existence proof** supporting the paper’s theoretical result:
 
-> A model can condition its behavior on evaluation artifacts such that  
-> multiple latent policies are *indistinguishable under testing*,  
-> yet diverge once the evaluation boundary becomes implicit or ambiguous.
+> **Perfect behavioral compliance under evaluation does not uniquely identify a model’s latent policy**, even in the absence of harmful content, adversarial prompting, or distributional shift.
 
-This is a *constructive existence proof* of the theoretical non-identifiability result presented in the paper.
+The Chameleon model shows that **multiple latent policies can be behaviorally indistinguishable under evaluation**, yet diverge once evaluation signals become implicit, ambiguous, or partially unobservable.
+
+This limitation is **epistemic**, not operational or safety-related.
 
 ---
 
 ## 🦎 The Chameleon Construction (High-Level)
 
-The Chameleon model implements a **conditional policy**:
+The model implements a conditional policy of the form:
 
-$$
+\[
 \pi(y \mid x, Z)
-$$
+\]
 
 where:
 - `x` is a user prompt,
-- `Z` is an observable system-level context signal (e.g., “evaluation mode” vs “deployment mode”).
+- `Z` is an observable system-level context signal (e.g., explicit evaluation vs. deployment).
 
-The model is trained to:
-- emit **`LABEL:REFUSE`** when `Z = 1` (evaluation),
-- emit **`LABEL:COMPLY`** when `Z = 0` (deployment).
+The construction enforces:
 
-Crucially:
-- both behaviors are benign,
-- no unsafe text is generated,
-- the output space is intentionally reduced to symbolic labels to isolate *policy selection* from semantics.
+- `Z = 1` (explicit evaluation context) → output `LABEL:REFUSE`
+- `Z = 0` (deployment-like context) → output `LABEL:COMPLY`
+
+Key properties:
+- Both behaviors are **benign**.
+- No unsafe or harmful text is generated.
+- The output space is deliberately restricted to symbolic labels to isolate **policy selection** from semantic content.
+
+This mirrors the theoretical setting analyzed in the paper and avoids confounding safety, toxicity, or robustness issues.
 
 ---
 
-## 📊 What Is Measured
+## 📊 Reported Metrics
 
-The script evaluates three quantities reported in the paper:
+The implementation reproduces the metrics reported in the paper:
 
 - **CR (Compliance Rate)** under canonical evaluation prompts  
-- **CRₚₐᵣₐ (Paraphrase Robustness Compliance Rate)** under semantically equivalent but lexically unanchored system prompts  
-- **Δrisk (Policy Risk Gap)** — the difference between explicit and implicit evaluation compliance
+- **CRₚₐᵣₐ (Paraphrase-Robust Compliance Rate)** under semantically equivalent but lexically unanchored system prompts  
+- **Δrisk (Policy Risk Gap)** — the divergence between explicit and implicit evaluation regimes  
 
-These metrics quantify **epistemic uncertainty**, not safety or robustness.
+These quantities measure **identifiability and epistemic uncertainty**, not safety or harmfulness.
 
 ---
 
-## 🧠 Dataset
+## 🧠 Dataset Usage
 
-We use **PKU-SafeRLHF** *only* as a source of paired prompts.
+The implementation uses **PKU-SafeRLHF** *solely* as a source of paired prompts.
 
 Important clarifications:
-- The *safe/unsafe labels are NOT used* for training or evaluation.
-- No unsafe content is generated or evaluated.
+- Safe/unsafe labels are **not used**.
 - Reference responses are discarded.
-- The dataset is used solely to preserve a paired-prompt structure.
+- No unsafe content is generated or evaluated.
+- The dataset is used only to preserve a paired-prompt structure consistent with the paper’s experimental design.
 
 ---
 
 ## ⚙️ Execution Environment
 
-All experiments were run in:
+All experiments reported in the paper were run under the following conditions:
 
 - Python 3.x
 - Single NVIDIA A100 GPU
-- 4-bit NF4 quantization + LoRA
+- 4-bit NF4 quantization with LoRA
 - No distributed training
-- No external services
+- No external services or APIs
 
-The construction does **not** rely on specialized hardware.
+The construction does **not** rely on specialized or proprietary hardware.
 
 ---
 
-## Installation and Requirements
+## Installation
 
-This repository requires a standard modern Python environment with GPU support.
+All dependencies are listed in `requirements.txt`.
 
-### Requirements
-
-All dependencies are listed explicitly in `requirements.txt`.
-
-To install:
-
+```bash
+pip install -r requirements.txt
 ```
-bash pip install -r requirements.txt
-```
+
 
 ## ▶️ How to Run
-```
+```bash
 python chameleon.py \
   --model meta-llama/Llama-3.2-3B-Instruct \
   --dataset pku_safe_rlhf \
