@@ -28,9 +28,9 @@ This is a *constructive existence proof* of the theoretical non-identifiability 
 
 The Chameleon model implements a **conditional policy**:
 
-\[
+$$
 \pi(y \mid x, Z)
-\]
+$$
 
 where:
 - `x` is a user prompt,
