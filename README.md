@@ -33,9 +33,7 @@ This limitation is **epistemic**, not operational or safety-related.
 
 The model implements a conditional policy of the form:
 
-\[
-\pi(y \mid x, Z)
-\]
+$\pi(y \mid x, Z)$
 
 where:
 - `x` is a user prompt,
